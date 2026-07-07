@@ -456,6 +456,71 @@
     vertical-align: middle;
   }
 
+  .age-cake {
+    position: absolute;
+    bottom: -10px;
+    right: -18px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: cake-bob 2.2s ease-in-out infinite;
+    filter: drop-shadow(0 10px 20px rgba(15, 23, 42, 0.2));
+  }
+
+  .candle-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: -10px;
+    z-index: 2;
+  }
+
+  .candle-flame {
+    font-size: 1.1rem;
+    line-height: 1;
+    animation: flicker 0.8s ease-in-out infinite alternate;
+  }
+
+  @keyframes flicker {
+    from { transform: scale(1) translateY(0); opacity: 0.9; }
+    to { transform: scale(1.1) translateY(-2px); opacity: 1; }
+  }
+
+  .candle-number {
+    background: linear-gradient(180deg, #fff 0%, #fef9c3 100%);
+    color: #dc2626;
+    font-family: 'Noto Sans Armenian', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    width: 30px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px 5px 3px 3px;
+    border: 2px solid #fbbf24;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    line-height: 1;
+  }
+
+  .candle-stick {
+    width: 7px;
+    height: 16px;
+    background: linear-gradient(90deg, #d4b896, #f5e6c8, #c9a66b);
+    border-radius: 2px;
+  }
+
+  .cake-emoji {
+    font-size: 5.5rem;
+    line-height: 1;
+  }
+
+  @keyframes cake-bob {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+  }
+
   @keyframes photo-in {
     from {
       opacity: 0;
@@ -649,6 +714,16 @@
       margin: 0 auto;
     }
 
+    .cake-emoji {
+      font-size: 4.5rem;
+    }
+
+    .candle-number {
+      font-size: 1.35rem;
+      width: 26px;
+      height: 30px;
+    }
+
     .hero-info {
       text-align: center;
     }
@@ -714,11 +789,19 @@
               </div>
             </div>
           </div>
+          <div class="age-cake" aria-label="2 տարեկան">
+            <div class="candle-wrap">
+              <span class="candle-flame">🔥</span>
+              <span class="candle-number">2</span>
+              <span class="candle-stick"></span>
+            </div>
+            <span class="cake-emoji">🎂</span>
+          </div>
         </div>
       </div>
 
       <div class="hero-info">
-        <span class="badge">🧭 Միացեք մեր սրտիկ</span>
+        <span class="badge">🧭 Նշում ենք</span>
 
         <h1 class="title">ԼեՎոնի 2-րդ<br>տարեդարձի տոնին</h1>
 
