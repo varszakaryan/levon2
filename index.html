@@ -2,7 +2,8 @@
 <html lang="hy">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
   <title>Լևոնի 2-րդ տարեդարձի հրավեր 🦁</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -100,6 +101,8 @@
     background: none;
     border: none;
     padding: 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
     filter: drop-shadow(0 16px 32px rgba(15, 23, 42, 0.25));
     animation: balloon-bob 2.2s ease-in-out infinite;
     transition: transform 0.15s ease;
@@ -107,6 +110,10 @@
 
   .loader-balloon:hover {
     transform: scale(1.04);
+  }
+
+  .loader-balloon:active {
+    transform: scale(0.96);
   }
 
   .loader-balloon.is-popped {
@@ -451,15 +458,15 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: linear-gradient(135deg, var(--jungle), var(--savanna));
-    color: #fff;
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 0.45rem 1.1rem;
-    border-radius: 2rem;
+    background: none;
+    color: var(--jungle);
+    font-size: 0.98rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0;
     margin-bottom: 1rem;
     animation: pulse 2s ease-in-out infinite;
-    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.4);
   }
 
   @keyframes pulse {
@@ -591,41 +598,223 @@
   }
 
   @media (max-width: 720px) {
+    body {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 45%, #f0f9ff 100%);
+    }
+
+    .page-loader {
+      padding: max(1.5rem, env(safe-area-inset-top)) 1.25rem max(1.5rem, env(safe-area-inset-bottom));
+    }
+
+    .loader-hint {
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+    }
+
+    .loader-balloon {
+      font-size: clamp(7rem, 42vw, 9.5rem);
+    }
+
+    .container {
+      padding:
+        max(1.25rem, env(safe-area-inset-top))
+        max(1rem, env(safe-area-inset-right))
+        max(2rem, env(safe-area-inset-bottom))
+        max(1rem, env(safe-area-inset-left));
+      min-height: auto;
+      justify-content: flex-start;
+    }
+
     .hero-layout {
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 1.75rem;
     }
 
     .hero-photo {
       order: -1;
+      padding: 0 0.25rem;
     }
 
     .photo-wrap {
-      max-width: 380px;
+      max-width: min(100%, 340px);
       margin: 0 auto;
+      padding-bottom: 12px;
+    }
+
+    .wood-frame {
+      padding: 12px;
+      border-radius: 5px;
+      box-shadow:
+        0 12px 28px rgba(180, 60, 20, 0.28),
+        0 3px 10px rgba(180, 60, 20, 0.18),
+        inset 0 2px 4px rgba(255, 255, 255, 0.45),
+        inset 0 -4px 8px rgba(120, 30, 10, 0.3);
+    }
+
+    .wood-frame::before {
+      inset: 8px;
+    }
+
+    .frame-mat {
+      padding: 9px;
+    }
+
+    .age-cake {
+      bottom: -4px;
+      right: -6px;
+      transform: scale(0.92);
+      transform-origin: bottom right;
     }
 
     .cake-emoji {
-      font-size: 4.5rem;
+      font-size: 4rem;
     }
 
     .candle-number {
-      font-size: 1.35rem;
-      width: 26px;
-      height: 30px;
+      font-size: 1.25rem;
+      width: 24px;
+      height: 28px;
+    }
+
+    .candle-flame {
+      font-size: 1rem;
     }
 
     .hero-info {
       text-align: center;
+      padding: 0 0.25rem;
     }
 
-    .message,
-    .rsvp {
+    .badge {
+      font-size: 0.92rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .title {
+      font-size: clamp(1.45rem, 6.5vw, 1.75rem);
+      line-height: 1.3;
+      margin-bottom: 0.35rem;
+    }
+
+    .emoji-row {
+      font-size: 1.35rem;
+      letter-spacing: 0.2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .details {
+      margin-top: 1rem;
+      gap: 0.85rem;
+      max-width: 22rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .detail-card {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.65rem 0.5rem;
       text-align: center;
     }
 
     .detail-card:hover {
       transform: none;
+    }
+
+    .detail-icon {
+      font-size: 1.65rem;
+    }
+
+    .detail-value {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .message {
+      margin-top: 1rem;
+      padding: 0 0.25rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      text-align: center;
+      max-width: 22rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .rsvp {
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 1.75rem;
+      padding-bottom: 0.5rem;
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    .balloon {
+      opacity: 0.85;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .container {
+      padding-left: 0.85rem;
+      padding-right: 0.85rem;
+    }
+
+    .photo-wrap {
+      max-width: 100%;
+    }
+
+    .wood-frame {
+      padding: 10px;
+    }
+
+    .frame-mat {
+      padding: 7px;
+    }
+
+    .title {
+      font-size: 1.35rem;
+    }
+
+    .emoji-row {
+      font-size: 1.2rem;
+      letter-spacing: 0.12rem;
+    }
+
+    .details,
+    .message {
+      max-width: 100%;
+    }
+
+    .age-cake {
+      transform: scale(0.85);
+    }
+  }
+
+  @media (max-width: 720px) and (max-height: 500px) {
+    .container {
+      padding-top: 1rem;
+      padding-bottom: 1.25rem;
+    }
+
+    .hero-layout {
+      gap: 1rem;
+    }
+
+    .photo-wrap {
+      max-width: 220px;
+    }
+
+    .age-cake {
+      transform: scale(0.75);
+    }
+
+    footer {
+      margin-top: 1rem;
     }
   }
   </style>
@@ -710,8 +899,8 @@
         </div>
 
         <p class="message">
-          Հրավիրում ենք նշելու
-          <strong>մեր սրտիկի 2-րդ տարեդարձը</strong>։
+          Հրավիրում ենք կիսելու
+          <strong>մեր ուրախությունը</strong>։
         </p>
 
         <p class="message">
