@@ -62,28 +62,6 @@
     cursor: inherit;
   }
 
-  .loader-content.is-hidden {
-    opacity: 0;
-    visibility: hidden;
-    transform: scale(0.95);
-    pointer-events: none;
-  }
-
-  .loader-content.is-active {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1);
-    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
-  }
-
-  .loader-content.is-active .loader-line {
-    animation: loader-in 0.7s ease forwards;
-  }
-
-  .loader-content.is-active .loader-line:nth-child(2) {
-    animation-delay: 0.35s;
-  }
-
   .loader-balloon-wrap {
     position: absolute;
     inset: 0;
@@ -204,69 +182,6 @@
 
   .page-loader.is-popping {
     pointer-events: none;
-  }
-
-  .loader-content {
-    text-align: center;
-    max-width: 420px;
-    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
-  }
-
-  .loader-line {
-    display: block;
-    font-size: clamp(1.35rem, 5vw, 1.85rem);
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.5;
-    opacity: 0;
-    transform: translateY(16px);
-  }
-
-  .loader-line:nth-child(2) {
-    animation-delay: 0.35s;
-  }
-
-  .loader-heart {
-    display: inline-block;
-    animation: heart-beat 1.2s ease-in-out infinite;
-    animation-delay: 0.9s;
-  }
-
-  @keyframes loader-in {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes heart-beat {
-    0%, 100% { transform: scale(1); }
-    25% { transform: scale(1.2); }
-    50% { transform: scale(1); }
-  }
-
-  .loader-dots {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 2rem;
-  }
-
-  .loader-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--jungle);
-    opacity: 0.35;
-    animation: dot-pulse 1.2s ease-in-out infinite;
-  }
-
-  .loader-dot:nth-child(2) { animation-delay: 0.2s; }
-  .loader-dot:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes dot-pulse {
-    0%, 100% { opacity: 0.35; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.15); }
   }
 
   .savanna-scene {
@@ -643,32 +558,8 @@
   .rsvp {
     margin-top: 1.25rem;
     text-align: left;
-  }
-
-  .rsvp-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: linear-gradient(135deg, var(--jungle), var(--savanna));
-    color: #fff;
-    font-family: 'Noto Sans Armenian', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 600;
-    text-decoration: none;
-    padding: 0.9rem 2.25rem;
-    border-radius: 3rem;
-    box-shadow: 0 8px 24px rgba(20, 184, 166, 0.4);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .rsvp-btn:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 12px 32px rgba(20, 184, 166, 0.5);
-  }
-
-  .rsvp-note {
-    margin-top: 0.75rem;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
     color: var(--text-muted);
   }
 
@@ -742,16 +633,6 @@
 <body class="is-loading">
 
   <div class="page-loader" id="pageLoader" aria-live="polite">
-    <div class="loader-content is-hidden" id="loaderMessage">
-      <span class="loader-line">Ինչ անում ենք,</span>
-      <span class="loader-line">երեխեքի համար ենք անում <span class="loader-heart">❤️</span></span>
-      <div class="loader-dots" aria-hidden="true">
-        <span class="loader-dot"></span>
-        <span class="loader-dot"></span>
-        <span class="loader-dot"></span>
-      </div>
-    </div>
-
     <div class="loader-balloon-wrap is-visible" id="loaderBalloonWrap">
       <p class="loader-hint">Ծակիր փուչիկը</p>
       <button class="loader-balloon" id="loaderBalloon" type="button" aria-label="Կտրել փուչիկը">🎈</button>
@@ -803,7 +684,7 @@
       <div class="hero-info">
         <span class="badge">🧭 Նշում ենք</span>
 
-        <h1 class="title">ԼեՎոնի 2-րդ<br>տարեդարձի տոնին</h1>
+        <h1 class="title">ԼեՎոնի 2-րդ<br>տարեդարձի տոնը</h1>
 
         <div class="emoji-row">🎈 🎂 🎈 🎁 🎈</div>
 
@@ -833,33 +714,21 @@
           <strong>մեր սրտիկի 2-րդ տարեդարձը</strong>։
         </p>
 
-        <div class="rsvp">
-          <a class="rsvp-btn" href="https://wa.me/37477400046" target="_blank" rel="noopener noreferrer">🧭 Հաստատեք մինչև հուլիսի 13-ը</a>
-          <p class="rsvp-note">Գրեք մեզ WhatsApp-ով 🎈</p>
-        </div>
+        <p class="message">
+          <em>Խնդրում ենք նախապես հաստատել ձեր մասնակցությունը նամակով կամ զանգով։</em>
+        </p>
+
+
       </div>
     </section>
 
     <footer>Սիրով՝ Գևորգ և Վարսեր 💛</footer>
   </div>
-
   <script>
   const pageLoader = document.getElementById('pageLoader');
-  const loaderMessage = document.getElementById('loaderMessage');
   const loaderBalloonWrap = document.getElementById('loaderBalloonWrap');
   const loaderBalloon = document.getElementById('loaderBalloon');
   const popSplash = document.getElementById('popSplash');
-
-  const showLoadingMessage = () => {
-    loaderBalloonWrap.classList.remove('is-visible');
-    loaderBalloonWrap.hidden = true;
-    pageLoader.classList.remove('is-balloon-phase', 'is-popping');
-
-    loaderMessage.classList.remove('is-hidden');
-    loaderMessage.classList.add('is-active');
-
-    setTimeout(revealMainContent, 2800);
-  };
 
   const createSplash = (x, y) => {
     const colors = ['🎈', '🎈', '🎈', '🎂', '🎁', '✨'];
@@ -907,7 +776,7 @@
     const y = rect.top + rect.height / 2;
 
     createSplash(x, y);
-    setTimeout(showLoadingMessage, 900);
+    setTimeout(revealMainContent, 900);
   };
 
   loaderBalloon.addEventListener('click', popBalloon);
