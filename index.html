@@ -66,7 +66,22 @@
     opacity: 0;
     visibility: hidden;
     transform: scale(0.95);
+    pointer-events: none;
+  }
+
+  .loader-content.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
     transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+  }
+
+  .loader-content.is-active .loader-line {
+    animation: loader-in 0.7s ease forwards;
+  }
+
+  .loader-content.is-active .loader-line:nth-child(2) {
+    animation-delay: 0.35s;
   }
 
   .loader-balloon-wrap {
@@ -205,7 +220,6 @@
     line-height: 1.5;
     opacity: 0;
     transform: translateY(16px);
-    animation: loader-in 0.7s ease forwards;
   }
 
   .loader-line:nth-child(2) {
@@ -386,25 +400,25 @@
     background:
       repeating-linear-gradient(
         92deg,
-        rgba(255, 255, 255, 0.03) 0px,
-        rgba(255, 255, 255, 0.03) 2px,
+        rgba(255, 255, 255, 0.08) 0px,
+        rgba(255, 255, 255, 0.08) 2px,
         transparent 2px,
         transparent 8px
       ),
       linear-gradient(
         145deg,
-        #c4a06a 0%,
-        #8b5a2b 18%,
-        #a0724a 38%,
-        #6f4e37 58%,
-        #9a6b3f 78%,
-        #b8895a 100%
+        #f0a050 0%,
+        #e07030 20%,
+        #d45228 40%,
+        #c43e1c 55%,
+        #e88838 75%,
+        #f5b85a 100%
       );
     box-shadow:
-      0 16px 40px rgba(62, 39, 20, 0.28),
-      0 4px 12px rgba(62, 39, 20, 0.15),
-      inset 0 2px 3px rgba(255, 255, 255, 0.35),
-      inset 0 -4px 8px rgba(0, 0, 0, 0.25);
+      0 16px 40px rgba(180, 60, 20, 0.32),
+      0 4px 12px rgba(180, 60, 20, 0.2),
+      inset 0 2px 4px rgba(255, 255, 255, 0.45),
+      inset 0 -4px 8px rgba(120, 30, 10, 0.3);
     position: relative;
     animation: photo-in 1s ease-out;
   }
@@ -413,33 +427,33 @@
     content: '';
     position: absolute;
     inset: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(120, 30, 10, 0.25);
     border-radius: 2px;
     pointer-events: none;
     z-index: 2;
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.3);
   }
 
   .frame-mat {
-    background: #f7f3ed;
-    padding: 14px;
+    background: #fffaf5;
+    padding: 12px;
     box-shadow:
-      inset 0 0 0 1px rgba(0, 0, 0, 0.06),
+      inset 0 0 0 1px rgba(180, 100, 50, 0.12),
       inset 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 
   .frame-inner {
-    background: #0a0a0a;
+    background: #fff;
     overflow: hidden;
-    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.45);
+    box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.08);
   }
 
   .family-photo {
     display: block;
     width: 100%;
     height: auto;
-    mix-blend-mode: normal;
-    filter: none;
+    object-fit: cover;
+    vertical-align: middle;
   }
 
   @keyframes photo-in {
@@ -451,54 +465,6 @@
       opacity: 1;
       transform: translateY(0) scale(1);
     }
-  }
-
-  .photo-wrap .age-circle {
-    position: absolute;
-    bottom: -8px;
-    right: -20px;
-    width: 170px;
-    height: 195px;
-    margin-bottom: 0;
-    z-index: 2;
-  }
-
-  .age-circle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 170px;
-    height: 195px;
-    background: none;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    margin-bottom: 0;
-    animation: bounce 2s ease-in-out infinite;
-    position: relative;
-  }
-
-  .age-circle::before {
-    content: '🎈';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -52%);
-    font-size: 10rem;
-    line-height: 1;
-    z-index: 0;
-  }
-
-  .age-number {
-    position: relative;
-    z-index: 1;
-    font-family: 'Noto Sans Armenian', sans-serif;
-    font-size: 4.5rem;
-    font-weight: 800;
-    color: #fff;
-    text-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
-    margin-top: -24px;
-    line-height: 1;
   }
 
   .badge {
@@ -537,11 +503,6 @@
     color: var(--text-muted);
     margin-bottom: 1rem;
     line-height: 1.5;
-  }
-
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
   }
 
   .emoji-row {
@@ -697,19 +658,6 @@
       text-align: center;
     }
 
-    .age-circle {
-      width: 150px;
-      height: 170px;
-    }
-
-    .age-circle::before {
-      font-size: 8.5rem;
-    }
-
-    .age-number {
-      font-size: 3.75rem;
-    }
-
     .detail-card:hover {
       transform: none;
     }
@@ -719,7 +667,7 @@
 <body class="is-loading">
 
   <div class="page-loader" id="pageLoader" aria-live="polite">
-    <div class="loader-content" id="loaderMessage">
+    <div class="loader-content is-hidden" id="loaderMessage">
       <span class="loader-line">Ինչ անում ենք,</span>
       <span class="loader-line">երեխեքի համար ենք անում <span class="loader-heart">❤️</span></span>
       <div class="loader-dots" aria-hidden="true">
@@ -729,7 +677,7 @@
       </div>
     </div>
 
-    <div class="loader-balloon-wrap" id="loaderBalloonWrap" hidden>
+    <div class="loader-balloon-wrap is-visible" id="loaderBalloonWrap">
       <p class="loader-hint">Ծակիր փուչիկը</p>
       <button class="loader-balloon" id="loaderBalloon" type="button" aria-label="Կտրել փուչիկը">🎈</button>
     </div>
@@ -766,7 +714,6 @@
               </div>
             </div>
           </div>
-          <div class="age-circle"><span class="age-number">2</span></div>
         </div>
       </div>
 
@@ -820,13 +767,15 @@
   const loaderBalloon = document.getElementById('loaderBalloon');
   const popSplash = document.getElementById('popSplash');
 
-  const showBalloonPhase = () => {
-    loaderMessage.classList.add('is-hidden');
-    loaderBalloonWrap.hidden = false;
-    requestAnimationFrame(() => {
-      loaderBalloonWrap.classList.add('is-visible');
-      pageLoader.classList.add('is-balloon-phase');
-    });
+  const showLoadingMessage = () => {
+    loaderBalloonWrap.classList.remove('is-visible');
+    loaderBalloonWrap.hidden = true;
+    pageLoader.classList.remove('is-balloon-phase', 'is-popping');
+
+    loaderMessage.classList.remove('is-hidden');
+    loaderMessage.classList.add('is-active');
+
+    setTimeout(revealMainContent, 2800);
   };
 
   const createSplash = (x, y) => {
@@ -875,13 +824,13 @@
     const y = rect.top + rect.height / 2;
 
     createSplash(x, y);
-    setTimeout(revealMainContent, 900);
+    setTimeout(showLoadingMessage, 900);
   };
 
   loaderBalloon.addEventListener('click', popBalloon);
 
   window.addEventListener('load', () => {
-    setTimeout(showBalloonPhase, 2600);
+    pageLoader.classList.add('is-balloon-phase');
   });
 
   const balloonHues = [0, 200, 115, 275, 40, 310, 165, 55, 225, 90];
