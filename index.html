@@ -956,6 +956,63 @@
   const loaderBalloon = document.getElementById('loaderBalloon');
   const popSplash = document.getElementById('popSplash');
 
+  const createAudioContext = () => {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    return AudioCtx ? new AudioCtx() : null;
+  };
+
+  const createNoiseBuffer = (audioCtx) => {
+    const sampleRate = audioCtx.sampleRate;
+    const durationSeconds = 0.09;
+    const length = Math.floor(sampleRate * durationSeconds);
+    const buffer = audioCtx.createBuffer(1, length, sampleRate);
+    const data = buffer.getChannelData(0);
+
+    for (let i = 0; i < length; i += 1) {
+      data[i] = (Math.random() * 2 - 1) * (1 - i / length);
+    }
+
+    return buffer;
+  };
+
+  const playBalloonPopSound = (() => {
+    let audioCtx = null;
+    let noiseBuffer = null;
+
+    return () => {
+      audioCtx = audioCtx || createAudioContext();
+      if (!audioCtx) return;
+
+      const now = audioCtx.currentTime;
+
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+
+      noiseBuffer = noiseBuffer || createNoiseBuffer(audioCtx);
+
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = noiseBuffer;
+
+      const bandpass = audioCtx.createBiquadFilter();
+      bandpass.type = 'bandpass';
+      bandpass.frequency.setValueAtTime(1500, now);
+      bandpass.Q.setValueAtTime(0.9, now);
+
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.22, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+
+      noise.connect(bandpass);
+      bandpass.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      noise.start(now);
+      noise.stop(now + 0.13);
+    };
+  })();
+
   const createSplash = (x, y) => {
     const colors = ['🎈', '🎈', '🎈', '🎂', '🎁', '✨'];
     const count = 48;
@@ -1001,6 +1058,7 @@
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
 
+    playBalloonPopSound();
     createSplash(x, y);
     setTimeout(revealMainContent, 900);
   };
