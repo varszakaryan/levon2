@@ -258,7 +258,7 @@
   }
 
   .garland {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
@@ -755,56 +755,6 @@
     line-height: 1.45;
   }
 
-  .music-toggle {
-    position: fixed;
-    right: max(0.9rem, env(safe-area-inset-right));
-    bottom: calc(4.25rem + env(safe-area-inset-bottom));
-    z-index: 3;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    border: 1px solid rgba(15, 23, 42, 0.12);
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: var(--navy);
-    padding: 0.5rem 0.75rem;
-    border-radius: 999px;
-    font-family: 'Noto Sans Armenian', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
-    transform: translateY(12px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.55s ease, transform 0.55s ease;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-
-  body.is-ready .music-toggle {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .music-toggle:active {
-    transform: translateY(0) scale(0.98);
-  }
-
-  .music-toggle-icon {
-    font-size: 1rem;
-    line-height: 1;
-  }
-
-  @media (max-width: 720px) {
-    .music-toggle {
-      bottom: calc(4rem + env(safe-area-inset-bottom));
-      font-size: 0.82rem;
-      padding: 0.48rem 0.7rem;
-    }
-  }
-
   .palm {
     position: fixed;
     font-size: 2.5rem;
@@ -979,14 +929,14 @@
       padding: 0 0.25rem;
       font-size: 0.95rem;
       line-height: 1.7;
-      text-align: center;
+      text-align: left;
       max-width: 22rem;
       margin-left: auto;
       margin-right: auto;
     }
 
     .rsvp {
-      text-align: center;
+      text-align: left;
     }
 
     footer {
@@ -994,7 +944,7 @@
       padding-bottom: 0.5rem;
       font-size: 0.8rem;
       line-height: 1.5;
-      text-align: left;
+      text-align: center;
       max-width: 22rem;
       margin-left: auto;
       margin-right: auto;
@@ -1221,10 +1171,6 @@
     <p class="fixed-footer-text">Ինչ անում ենք, երեխեքի համար ենք անում ❤️</p>
   </div>
 
-  <button class="music-toggle" id="musicToggle" type="button" aria-pressed="false">
-    <span class="music-toggle-icon" aria-hidden="true">🔇</span>
-    <span class="music-toggle-label">Music</span>
-  </button>
   <audio id="bgMusic" preload="auto" loop>
     <source src="assets/happy-birthday-music-box.mp3" type="audio/mpeg">
   </audio>
@@ -1233,7 +1179,6 @@
   const loaderBalloonWrap = document.getElementById('loaderBalloonWrap');
   const loaderBalloon = document.getElementById('loaderBalloon');
   const popSplash = document.getElementById('popSplash');
-  const musicToggle = document.getElementById('musicToggle');
   const bgMusic = document.getElementById('bgMusic');
   const calendarButton = document.getElementById('calendarButton');
   const calendarDropdown = document.getElementById('calendarDropdown');
@@ -1344,33 +1289,8 @@
       ? Promise.resolve()
       : (bgMusic.play?.() || Promise.resolve()).catch(() => {});
 
-  const stopBgMusic = () => {
-    if (!bgMusic) return;
-    bgMusic.pause?.();
-  };
-
-  const setMusicUI = (isOn) => {
-    if (!musicToggle) return;
-    musicToggle.setAttribute('aria-pressed', String(isOn));
-    const icon = musicToggle.querySelector('.music-toggle-icon');
-    const label = musicToggle.querySelector('.music-toggle-label');
-    if (icon) icon.textContent = isOn ? '🔊' : '🔇';
-    if (label) label.textContent = isOn ? 'Music on' : 'Music off';
-  };
-
-  let isMusicOn = false;
-  setMusicUI(isMusicOn);
-
   if (bgMusic) {
     bgMusic.volume = 0.385;
-  }
-
-  if (musicToggle) {
-    musicToggle.addEventListener('click', () => {
-      isMusicOn = !isMusicOn;
-      (isMusicOn ? playBgMusic() : Promise.resolve(stopBgMusic()));
-      setMusicUI(isMusicOn);
-    });
   }
 
   const getGoogleCalendarHref = () => {
@@ -1474,9 +1394,7 @@
     const y = rect.top + rect.height / 2;
 
     playBalloonPopSound();
-    isMusicOn = true;
     playBgMusic();
-    setMusicUI(true);
     createSplash(x, y);
     setTimeout(revealMainContent, 900);
   };
