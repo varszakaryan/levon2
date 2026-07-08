@@ -612,12 +612,10 @@
   .detail-value a {
     color: var(--jungle);
     text-decoration: none;
-    border-bottom: 1px solid rgba(29, 78, 216, 0.35);
-    transition: border-color 0.2s ease, color 0.2s ease;
+    transition: color 0.2s ease;
   }
 
   .detail-value a:hover {
-    border-bottom-color: var(--jungle);
     color: #1e40af;
   }
 
@@ -632,30 +630,23 @@
     border: none;
     background: none;
     font: inherit;
-    color: var(--text);
+    color: var(--jungle);
     padding: 0;
     text-align: inherit;
     cursor: pointer;
-    border-bottom: 1px dashed rgba(29, 78, 216, 0.45);
-    transition: border-color 0.2s ease, color 0.2s ease;
+    transition: color 0.2s ease;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
 
   .calendar-button:hover {
-    border-bottom-color: var(--jungle);
     color: #1e40af;
   }
 
   .calendar-button-inner {
     display: inline-flex;
     align-items: baseline;
-    gap: 0.35rem;
-  }
-
-  .calendar-button-caret {
-    font-size: 0.85em;
-    opacity: 0.8;
+    gap: 0;
   }
 
   .calendar-dropdown {
@@ -1160,7 +1151,6 @@
                   >
                     <span class="calendar-button-inner">
                       <span>Չորեքշաբթի, 15 հուլիս, 2026<br>17:00 – 21:00</span>
-                      <span class="calendar-button-caret" aria-hidden="true">▾</span>
                     </span>
                   </button>
                   <span class="calendar-dropdown" id="calendarDropdown" role="menu" aria-label="Ավելացնել օրացույցում">

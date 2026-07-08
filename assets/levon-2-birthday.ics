@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//varszakaryan//levon2//HY
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:levon2-20260715T170000@varszakaryan.github.io
+DTSTAMP:20260708T000000Z
+DTSTART:20260715T130000Z
+DTEND:20260715T170000Z
+SUMMARY:Լևոնի 2-րդ տարեդարձ
+LOCATION:El Garden Kids Zone, Ծիծեռնակաբերդի պուրակ 8, Երևան
+DESCRIPTION:ԼԵՎՈՆԻ 2-ՐԴ ՏԱՐԵԴԱՐՁԻ ՏՈՆԸ\\nԵրբ՝ Չորեքշաբթի, 15 հուլիս, 2026 · 17:00–21:00\\nՈրտեղ՝ El Garden Kids Zone, Ծիծեռնակաբերդի պուրակ 8, Երևան\\nՔարտեզ՝ https://maps.app.goo.gl/t8XnyLHcLc3rR8tv5
+URL:https://maps.app.goo.gl/t8XnyLHcLc3rR8tv5
+END:VEVENT
+END:VCALENDAR
