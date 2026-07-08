@@ -283,7 +283,7 @@
     z-index: 1;
     max-width: 1000px;
     margin: 0 auto;
-    padding: 2rem 1.5rem 3rem;
+    padding: 2rem 1.5rem 6rem;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -577,6 +577,39 @@
     color: var(--text-muted);
   }
 
+  .fixed-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.78);
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    pointer-events: none;
+  }
+
+  body.is-ready .fixed-footer {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fixed-footer-text {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+
   .palm {
     position: fixed;
     font-size: 2.5rem;
@@ -619,7 +652,7 @@
       padding:
         max(1.25rem, env(safe-area-inset-top))
         max(1rem, env(safe-area-inset-right))
-        max(2rem, env(safe-area-inset-bottom))
+        calc(max(2rem, env(safe-area-inset-bottom)) + 3.25rem)
         max(1rem, env(safe-area-inset-left));
       min-height: auto;
       justify-content: flex-start;
@@ -912,6 +945,10 @@
     </section>
 
     <footer>Սիրով՝ Գևորգ և Վարսեր 💛</footer>
+  </div>
+
+  <div class="fixed-footer" aria-hidden="true">
+    <p class="fixed-footer-text">Ինչ անում ենք, երեխեքի համար ենք անում ❤️</p>
   </div>
   <script>
   const pageLoader = document.getElementById('pageLoader');
