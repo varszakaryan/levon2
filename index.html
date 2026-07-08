@@ -285,19 +285,6 @@
     height: 100%;
   }
 
-  .garland-inner::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 0.75rem;
-    width: 130%;
-    height: 180px;
-    border-bottom: 3px solid rgba(15, 23, 42, 0.22);
-    border-radius: 50%;
-    transform: translateX(-50%);
-    filter: drop-shadow(0 2px 6px rgba(15, 23, 42, 0.08));
-  }
-
   .garland-flags {
     position: absolute;
     left: 0;
@@ -634,6 +621,88 @@
     color: #1e40af;
   }
 
+  .calendar-menu {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+  }
+
+  .calendar-button {
+    appearance: none;
+    border: none;
+    background: none;
+    font: inherit;
+    color: var(--text);
+    padding: 0;
+    text-align: inherit;
+    cursor: pointer;
+    border-bottom: 1px dashed rgba(29, 78, 216, 0.45);
+    transition: border-color 0.2s ease, color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .calendar-button:hover {
+    border-bottom-color: var(--jungle);
+    color: #1e40af;
+  }
+
+  .calendar-button-inner {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+  }
+
+  .calendar-button-caret {
+    font-size: 0.85em;
+    opacity: 0.8;
+  }
+
+  .calendar-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    min-width: 220px;
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(15, 23, 42, 0.10);
+    border-radius: 12px;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.14);
+    padding: 0.4rem;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 5;
+  }
+
+  .calendar-dropdown.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .calendar-dropdown a {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.6rem 0.7rem;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    border: none;
+  }
+
+  .calendar-dropdown a:hover {
+    background: rgba(59, 130, 246, 0.10);
+    color: #1e40af;
+  }
+
+  .calendar-dropdown-icon {
+    width: 1.5rem;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
   .message {
     margin-top: 1.25rem;
     text-align: left;
@@ -899,6 +968,15 @@
       line-height: 1.5;
     }
 
+    .calendar-dropdown {
+      left: 50%;
+      transform: translate(-50%, -6px);
+    }
+
+    .calendar-dropdown.is-open {
+      transform: translate(-50%, 0);
+    }
+
     .message {
       margin-top: 1rem;
       padding: 0 0.25rem;
@@ -1071,7 +1149,42 @@
           <div class="detail-card">
             <div class="detail-icon">🗓️</div>
             <div>
-              <div class="detail-value">Չորեքշաբթի, 15 հուլիս, 2026<br>17:00 – 21:00</div>
+              <div class="detail-value">
+                <span class="calendar-menu">
+                  <button
+                    class="calendar-button"
+                    id="calendarButton"
+                    type="button"
+                    aria-haspopup="menu"
+                    aria-expanded="false"
+                  >
+                    <span class="calendar-button-inner">
+                      <span>Չորեքշաբթի, 15 հուլիս, 2026<br>17:00 – 21:00</span>
+                      <span class="calendar-button-caret" aria-hidden="true">▾</span>
+                    </span>
+                  </button>
+                  <span class="calendar-dropdown" id="calendarDropdown" role="menu" aria-label="Ավելացնել օրացույցում">
+                    <a
+                      id="googleCalendarLink"
+                      role="menuitem"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="#"
+                    >
+                      <span class="calendar-dropdown-icon" aria-hidden="true">🗓️</span>
+                      Google Calendar
+                    </a>
+                    <a
+                      role="menuitem"
+                      href="assets/levon-2-birthday.ics"
+                      download
+                    >
+                      <span class="calendar-dropdown-icon" aria-hidden="true">🍎</span>
+                      Apple Calendar (.ics)
+                    </a>
+                  </span>
+                </span>
+              </div>
             </div>
           </div>
 
@@ -1122,6 +1235,9 @@
   const popSplash = document.getElementById('popSplash');
   const musicToggle = document.getElementById('musicToggle');
   const bgMusic = document.getElementById('bgMusic');
+  const calendarButton = document.getElementById('calendarButton');
+  const calendarDropdown = document.getElementById('calendarDropdown');
+  const googleCalendarLink = document.getElementById('googleCalendarLink');
 
   const createAudioContext = () => {
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -1256,6 +1372,61 @@
       setMusicUI(isMusicOn);
     });
   }
+
+  const getGoogleCalendarHref = () => {
+    const text = 'Լևոնի 2-րդ տարեդարձ';
+    const details = [
+      'ԼԵՎՈՆԻ 2-ՐԴ ՏԱՐԵԴԱՐՁԻ ՏՈՆԸ',
+      'Երբ՝ Չորեքշաբթի, 15 հուլիս, 2026 · 17:00–21:00',
+      'Որտեղ՝ El Garden Kids Zone, Ծիծեռնակաբերդի պուրակ 8, Երևան',
+      'Քարտեզ՝ https://maps.app.goo.gl/t8XnyLHcLc3rR8tv5',
+    ].join('\n');
+    const location = 'El Garden Kids Zone, Ծիծեռնակաբերդի պուրակ 8, Երևան';
+    const dates = '20260715T130000Z/20260715T170000Z';
+    const url = new URL('https://calendar.google.com/calendar/render');
+    url.searchParams.set('action', 'TEMPLATE');
+    url.searchParams.set('text', text);
+    url.searchParams.set('dates', dates);
+    url.searchParams.set('details', details);
+    url.searchParams.set('location', location);
+    return url.toString();
+  };
+
+  const setCalendarOpen = (isOpen) => {
+    if (!calendarButton || !calendarDropdown) return;
+    calendarButton.setAttribute('aria-expanded', String(isOpen));
+    calendarDropdown.classList.toggle('is-open', isOpen);
+  };
+
+  const isCalendarOpen = () =>
+    !!calendarDropdown && calendarDropdown.classList.contains('is-open');
+
+  const toggleCalendar = () => setCalendarOpen(!isCalendarOpen());
+
+  if (googleCalendarLink) {
+    googleCalendarLink.href = getGoogleCalendarHref();
+  }
+
+  if (calendarButton) {
+    calendarButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleCalendar();
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!calendarDropdown || !calendarButton) return;
+    if (!isCalendarOpen()) return;
+    const target = e.target;
+    if (target instanceof Node && (calendarDropdown.contains(target) || calendarButton.contains(target))) return;
+    setCalendarOpen(false);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (!isCalendarOpen()) return;
+    setCalendarOpen(false);
+  });
 
   const createSplash = (x, y) => {
     const colors = ['🎈', '🎈', '🎈', '🎉', '🎊', '✨'];
