@@ -257,6 +257,28 @@
     overflow: hidden;
   }
 
+  .garland {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: clamp(110px, 18vw, 210px);
+    background-image: url('assets/garland.png');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: min(1200px, 120vw) auto;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.8s ease 0.25s, transform 0.8s ease 0.25s;
+  }
+
+  body.is-ready .garland {
+    opacity: 0.95;
+    transform: translateY(0);
+  }
+
   .balloon {
     position: absolute;
     bottom: -100px;
@@ -280,7 +302,7 @@
 
   .container {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     max-width: 1000px;
     margin: 0 auto;
     padding: 2rem 1.5rem 6rem;
@@ -926,6 +948,7 @@
   <div class="palm palm-right">🌴</div>
 
   <div class="balloons" id="balloons"></div>
+  <div class="garland" aria-hidden="true"></div>
 
   <div class="container">
     <section class="hero-layout">
