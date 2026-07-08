@@ -845,7 +845,7 @@
 
     .container {
       padding:
-        max(1.25rem, env(safe-area-inset-top))
+        calc(max(1.25rem, env(safe-area-inset-top)) + 5.5rem)
         max(1rem, env(safe-area-inset-right))
         calc(max(2rem, env(safe-area-inset-bottom)) + 3.25rem)
         max(1rem, env(safe-area-inset-left));
@@ -936,14 +936,16 @@
       max-width: 22rem;
       margin-left: auto;
       margin-right: auto;
+      text-align: left;
     }
 
     .detail-card {
-      flex-direction: column;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.65rem 0.5rem;
-      text-align: center;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 0.65rem;
+      padding: 0.65rem 0.25rem;
+      text-align: left;
     }
 
     .detail-card:hover {
@@ -952,6 +954,7 @@
 
     .detail-icon {
       font-size: 1.65rem;
+      margin-top: 0.1rem;
     }
 
     .detail-value {
@@ -959,13 +962,17 @@
       line-height: 1.5;
     }
 
+    .calendar-menu {
+      justify-content: flex-start;
+    }
+
     .calendar-dropdown {
-      left: 50%;
-      transform: translate(-50%, -6px);
+      left: 0;
+      transform: translateY(-6px);
     }
 
     .calendar-dropdown.is-open {
-      transform: translate(-50%, 0);
+      transform: translateY(0);
     }
 
     .message {
