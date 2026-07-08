@@ -263,10 +263,10 @@
     left: 0;
     right: 0;
     height: clamp(110px, 18vw, 210px);
-    background-image: url('assets/garland.png');
-    background-repeat: no-repeat;
-    background-position: top center;
-    background-size: min(1200px, 120vw) auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 0.75rem;
     pointer-events: none;
     z-index: 1;
     opacity: 0;
@@ -278,6 +278,69 @@
     opacity: 0.95;
     transform: translateY(0);
   }
+
+  .garland-inner {
+    position: relative;
+    width: min(1100px, 96vw);
+    height: 100%;
+  }
+
+  .garland-inner::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0.75rem;
+    width: 130%;
+    height: 180px;
+    border-bottom: 3px solid rgba(15, 23, 42, 0.22);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 2px 6px rgba(15, 23, 42, 0.08));
+  }
+
+  .garland-flags {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.35rem;
+    padding: 0 0.5rem;
+  }
+
+  .garland-flag {
+    width: clamp(22px, 4.3vw, 40px);
+    height: clamp(26px, 5.2vw, 46px);
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    border-radius: 2px;
+    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+    transform-origin: top center;
+  }
+
+  .garland-flag:nth-child(odd) {
+    transform: rotate(-2deg) translateY(0px);
+  }
+
+  .garland-flag:nth-child(even) {
+    transform: rotate(2deg) translateY(8px);
+  }
+
+  .garland-flag:nth-child(3n) { transform: rotate(-1deg) translateY(14px); }
+  .garland-flag:nth-child(4n) { transform: rotate(1deg) translateY(20px); }
+  .garland-flag:nth-child(5n) { transform: rotate(-2deg) translateY(26px); }
+
+  .garland-flag:nth-child(10n + 1) { background: #ef4444; }
+  .garland-flag:nth-child(10n + 2) { background: #f97316; }
+  .garland-flag:nth-child(10n + 3) { background: #f59e0b; }
+  .garland-flag:nth-child(10n + 4) { background: #eab308; }
+  .garland-flag:nth-child(10n + 5) { background: #22c55e; }
+  .garland-flag:nth-child(10n + 6) { background: #14b8a6; }
+  .garland-flag:nth-child(10n + 7) { background: #06b6d4; }
+  .garland-flag:nth-child(10n + 8) { background: #3b82f6; }
+  .garland-flag:nth-child(10n + 9) { background: #8b5cf6; }
+  .garland-flag:nth-child(10n + 10) { background: #ec4899; }
 
   .balloon {
     position: absolute;
@@ -948,7 +1011,28 @@
   <div class="palm palm-right">🌴</div>
 
   <div class="balloons" id="balloons"></div>
-  <div class="garland" aria-hidden="true"></div>
+  <div class="garland" aria-hidden="true">
+    <div class="garland-inner">
+      <div class="garland-flags">
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+        <span class="garland-flag"></span>
+      </div>
+    </div>
+  </div>
 
   <div class="container">
     <section class="hero-layout">
