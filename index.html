@@ -610,6 +610,56 @@
     line-height: 1.45;
   }
 
+  .music-toggle {
+    position: fixed;
+    right: max(0.9rem, env(safe-area-inset-right));
+    bottom: calc(4.25rem + env(safe-area-inset-bottom));
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--navy);
+    padding: 0.5rem 0.75rem;
+    border-radius: 999px;
+    font-family: 'Noto Sans Armenian', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+    transform: translateY(12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  body.is-ready .music-toggle {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .music-toggle:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .music-toggle-icon {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  @media (max-width: 720px) {
+    .music-toggle {
+      bottom: calc(4rem + env(safe-area-inset-bottom));
+      font-size: 0.82rem;
+      padding: 0.48rem 0.7rem;
+    }
+  }
+
   .palm {
     position: fixed;
     font-size: 2.5rem;
@@ -950,11 +1000,21 @@
   <div class="fixed-footer" aria-hidden="true">
     <p class="fixed-footer-text">Ինչ անում ենք, երեխեքի համար ենք անում ❤️</p>
   </div>
+
+  <button class="music-toggle" id="musicToggle" type="button" aria-pressed="false">
+    <span class="music-toggle-icon" aria-hidden="true">🔇</span>
+    <span class="music-toggle-label">Music</span>
+  </button>
+  <audio id="bgMusic" preload="auto" loop>
+    <source src="assets/happy-birthday-music-box.mp3" type="audio/mpeg">
+  </audio>
   <script>
   const pageLoader = document.getElementById('pageLoader');
   const loaderBalloonWrap = document.getElementById('loaderBalloonWrap');
   const loaderBalloon = document.getElementById('loaderBalloon');
   const popSplash = document.getElementById('popSplash');
+  const musicToggle = document.getElementById('musicToggle');
+  const bgMusic = document.getElementById('bgMusic');
 
   const createAudioContext = () => {
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -991,30 +1051,107 @@
 
       noiseBuffer = noiseBuffer || createNoiseBuffer(audioCtx);
 
-      const noise = audioCtx.createBufferSource();
-      noise.buffer = noiseBuffer;
+      // POP "crack" (short bright noise burst)
+      const crack = audioCtx.createBufferSource();
+      crack.buffer = noiseBuffer;
 
-      const bandpass = audioCtx.createBiquadFilter();
-      bandpass.type = 'bandpass';
-      bandpass.frequency.setValueAtTime(1500, now);
-      bandpass.Q.setValueAtTime(0.9, now);
+      const crackHighpass = audioCtx.createBiquadFilter();
+      crackHighpass.type = 'highpass';
+      crackHighpass.frequency.setValueAtTime(900, now);
 
-      const gain = audioCtx.createGain();
-      gain.gain.setValueAtTime(0.0001, now);
-      gain.gain.exponentialRampToValueAtTime(0.22, now + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+      const crackBand = audioCtx.createBiquadFilter();
+      crackBand.type = 'bandpass';
+      crackBand.frequency.setValueAtTime(2600, now);
+      crackBand.Q.setValueAtTime(1.2, now);
 
-      noise.connect(bandpass);
-      bandpass.connect(gain);
-      gain.connect(audioCtx.destination);
+      const crackGain = audioCtx.createGain();
+      crackGain.gain.setValueAtTime(0.0001, now);
+      crackGain.gain.exponentialRampToValueAtTime(0.38, now + 0.006);
+      crackGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.055);
 
-      noise.start(now);
-      noise.stop(now + 0.13);
+      crack.connect(crackHighpass);
+      crackHighpass.connect(crackBand);
+      crackBand.connect(crackGain);
+      crackGain.connect(audioCtx.destination);
+
+      // AIR "pshh" (slightly longer, darker filtered noise)
+      const air = audioCtx.createBufferSource();
+      air.buffer = noiseBuffer;
+
+      const airLowpass = audioCtx.createBiquadFilter();
+      airLowpass.type = 'lowpass';
+      airLowpass.frequency.setValueAtTime(1200, now);
+
+      const airGain = audioCtx.createGain();
+      airGain.gain.setValueAtTime(0.0001, now + 0.01);
+      airGain.gain.exponentialRampToValueAtTime(0.18, now + 0.02);
+      airGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+
+      air.connect(airLowpass);
+      airLowpass.connect(airGain);
+      airGain.connect(audioCtx.destination);
+
+      // "Thwip" transient (quick pitch drop)
+      const thwip = audioCtx.createOscillator();
+      thwip.type = 'triangle';
+      thwip.frequency.setValueAtTime(420, now);
+      thwip.frequency.exponentialRampToValueAtTime(120, now + 0.06);
+
+      const thwipGain = audioCtx.createGain();
+      thwipGain.gain.setValueAtTime(0.0001, now);
+      thwipGain.gain.exponentialRampToValueAtTime(0.06, now + 0.01);
+      thwipGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+
+      thwip.connect(thwipGain);
+      thwipGain.connect(audioCtx.destination);
+
+      crack.start(now);
+      crack.stop(now + 0.06);
+
+      air.start(now + 0.01);
+      air.stop(now + 0.23);
+
+      thwip.start(now);
+      thwip.stop(now + 0.1);
     };
   })();
 
+  const playBgMusic = () =>
+    !bgMusic
+      ? Promise.resolve()
+      : (bgMusic.play?.() || Promise.resolve()).catch(() => {});
+
+  const stopBgMusic = () => {
+    if (!bgMusic) return;
+    bgMusic.pause?.();
+  };
+
+  const setMusicUI = (isOn) => {
+    if (!musicToggle) return;
+    musicToggle.setAttribute('aria-pressed', String(isOn));
+    const icon = musicToggle.querySelector('.music-toggle-icon');
+    const label = musicToggle.querySelector('.music-toggle-label');
+    if (icon) icon.textContent = isOn ? '🔊' : '🔇';
+    if (label) label.textContent = isOn ? 'Music on' : 'Music off';
+  };
+
+  let isMusicOn = false;
+  setMusicUI(isMusicOn);
+
+  if (bgMusic) {
+    bgMusic.volume = 0.55;
+  }
+
+  if (musicToggle) {
+    musicToggle.addEventListener('click', () => {
+      isMusicOn = !isMusicOn;
+      (isMusicOn ? playBgMusic() : Promise.resolve(stopBgMusic()));
+      setMusicUI(isMusicOn);
+    });
+  }
+
   const createSplash = (x, y) => {
-    const colors = ['🎈', '🎈', '🎈', '🎂', '🎁', '✨'];
+    const colors = ['🎈', '🎈', '🎈', '🎉', '🎊', '✨'];
     const count = 48;
 
     Array.from({ length: count }).forEach(() => {
@@ -1059,6 +1196,9 @@
     const y = rect.top + rect.height / 2;
 
     playBalloonPopSound();
+    isMusicOn = true;
+    playBgMusic();
+    setMusicUI(true);
     createSplash(x, y);
     setTimeout(revealMainContent, 900);
   };
